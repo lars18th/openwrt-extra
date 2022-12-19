@@ -2,30 +2,7 @@
 
 ### Description
 
-This is the dev/experimental [OpenWrt](https://openwrt.org/) package feed containing unmerged [**Samba 4.12.x**](https://www.samba.org/) changes/modifications.
-
-#### Download/ipks
-Ready build ipk's for *Snapshots* based firmware, can be downloaded from here: [snapshots/packages](https://downloads.openwrt.org/snapshots/packages/).
-
-#### Note
-Samba [VFS modules](https://wiki.samba.org/index.php/Virtual_File_System_Modules) are supported and can be added via luci.
-
-The size of the Samba4-server/libs.ipk and deps are around 8 MB, so you need a >8MB NVRAM device to fit the final image or setup a [ext-root](https://openwrt.org/docs/guide-user/additional-software/extroot_configuration) *(recommend for ad-dc operation)*.
-
-The package includes untested options for: **[ad-dc](https://wiki.samba.org/index.php/Setting_up_Samba_as_an_Active_Directory_Domain_Controller)** *(Needs manual setup via 'samba-tool' to create a custom smb.conf)*.
-
-### Usage
-
-#### Basic
-You can use the [openwrt-package-builder](https://github.com/Andy2244/openwrt-package-builder), which will setup/build the packages and allows for local hosting as well.
-
-Create/edit those lines in the \*.txt file to the desired packages.
-
-*Samba4*
-```
-FEED_1="src-git extra https://github.com/Andy2244/openwrt-extra.git"
-FEED_1_PACKAGES="samba4-server luci-app-samba4 wsdd2"
-```
+This is a repository for [OpenWrt](https://openwrt.org/) packages feed containing unmerged [**rrredir**]fork(https://github.com/lars18th/rrredir.git).
 
 #### Advanced (already setup OpenWrt sdk)
 To use these packages, add the following line to your ```feeds.conf``` or ```feeds.conf.default``` in the OpenWrt buildroot:
@@ -44,28 +21,3 @@ Make sure the install line notes the extra feed and afterwards run:
 ```make menuconfig``` or ```make defconfig``` to expand, create the ```.config```
 
 The packages should appear under **Network->Samba4**, **Network->VPN->softethervpn5-server** and **Network->Filesystem->smbd-server**.
-
-### Problems
-
-#### Visibility (share names are not visible)
-If you cant see your share in the Windows 10 explorer, make sure the ```wsdd2``` package is installed and enabled.
-
-**On Windows 10** check those services: 
-* Start the ```Function Discovery Provider Host``` and ```Function Discovery Resource Publication``` services, and then set them to Automatic (Delayed Start).
-* When you open Explorer Network, enable network discovery when you are prompted.
-* BUG: It seems, if you only use WSD discovery (SSDP/LLTD disabled) for other Win10 clients, you may need to manually restart the ```Function Discovery Resource Publication``` services after each Win10 reboot.
-
-**On Linux/macOS** make sure the ```avahi-dbus-daemon``` package is installed and enabled.
-
-#### Share invalid user access
-If you encounter invalid user access errors, try enabling the ```Force Root``` option. This will ignore the ```Allowed users``` and force access rights via the root user.
-
-#### CPU problems
-The process priority/niceness can be set in the config and may avoid samba stalling other processes on low end devices.
-```
-config procd 'extra'
-	option samba_nice '3'
- ```
-
-#### Compatible Filesystems
-You should use a native linux filesystem with samba4/smbd, like btrfs, ext2/3/4 or F2FS (ssd/flash drives). The NTFS driver in openWRT is readonly for none-root useres, so will not work correctly, you can instead use exFAT (enable _build patented_ in menuconfig) if you need a Windows compatible FS. You can format a drive to ext2/3/4 on Windows via [partitionwizard-portable](https://www.partitionwizard.com/partitionmagic/portable-partition-magic.html).
