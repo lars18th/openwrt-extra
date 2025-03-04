@@ -10,8 +10,9 @@ jobs:
     strategy:
       matrix:
         arch:
-          - x86_64
-          - mips_24kc
+          - x86_64-22.03.0
+        fixup:
+          - 1
 
     steps:
       - uses: actions/checkout@v2
@@ -19,9 +20,10 @@ jobs:
           fetch-depth: 0
 
       - name: Build
-        uses: openwrt/gh-action-sdk@main
+        uses: cmangla/gh-action-sdk@pr-hash-fixup-option
         env:
           ARCH: ${{ matrix.arch }}
+          FIXUP: ${{ matrix.fixup }}
 
       - name: Store packages
         uses: actions/upload-artifact@v4
