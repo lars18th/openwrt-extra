@@ -10,7 +10,7 @@ jobs:
     strategy:
       matrix:
         arch:
-          - x86_64-22.03.0
+          - x86_64-22.03
         fixup:
           - 1
 
