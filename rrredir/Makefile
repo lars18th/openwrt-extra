@@ -7,7 +7,7 @@ PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL:=https://github.com/lars18th/rrredir.git
 PKG_SOURCE_DATE:=2025-03-04
 PKG_SOURCE_VERSION:=75ff13f9b528047562cfeee477184a0bb9b1cc3f
-PKG_MIRROR_HASH:=cbb63abbda8630fd2a345c792c946552d3baa753316b10c76cc12bfc558e5509
+PKG_MIRROR_HASH:=skip
 
 PKG_MAINTAINER:=Andy Walsh <andy.walsh44+github@gmail.com>
 PKG_LICENSE:=MIT License
