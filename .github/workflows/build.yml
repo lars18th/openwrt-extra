@@ -15,10 +15,9 @@ jobs:
           - 1
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v2
         with:
-          submodules: false
-          fetch-depth: 1
+          fetch-depth: 0
 
       - name: Build
         uses: cmangla/gh-action-sdk@pr-hash-fixup-option
