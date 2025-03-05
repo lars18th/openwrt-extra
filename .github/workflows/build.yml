@@ -23,11 +23,10 @@ jobs:
         uses: cmangla/gh-action-sdk@pr-hash-fixup-option
         env:
           ARCH: ${{ matrix.arch }}
-          ARTIFACTS_DIR: ${{ github.workspace }}/artifacts
           FIXUP: ${{ matrix.fixup }}
 
       - name: Store packages
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.arch}}-packages
-          path: artifacts/bin/packages/${{ matrix.arch }}/packages/*.ipk
+          path: bin/packages/${{ matrix.arch }}/packages/*.ipk
