@@ -23,7 +23,6 @@ jobs:
         uses: cmangla/gh-action-sdk@pr-hash-fixup-option
         env:
           ARCH: ${{ matrix.arch }}
-          FEEDNAME: packages
           FIXUP: ${{ matrix.fixup }}
 
       - name: Move created packages to project dir
