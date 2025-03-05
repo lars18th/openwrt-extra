@@ -15,14 +15,17 @@ jobs:
           - 1
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          submodules: false
+          fetch-depth: 1
 
       - name: Build
         uses: cmangla/gh-action-sdk@pr-hash-fixup-option
         env:
           ARCH: ${{ matrix.arch }}
+          FEED_DIR: ${{ github.workspace }}/packages/openwrt
+          FEEDNAME: packages
           FIXUP: ${{ matrix.fixup }}
 
       - name: Store packages
