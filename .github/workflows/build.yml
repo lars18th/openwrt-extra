@@ -9,28 +9,24 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        arch:
-          - x86_64-22.03.2
-        fixup:
-          - 1
-
+        wrtrel:
+          - 22.03.2
+        sdk:
+          - x86-64
     steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
+      - name: Checkout current repository
+        uses: actions/checkout@v4
 
-      - name: Build
+      - name: Build rrredir package for OpenWRT
         uses: cmangla/gh-action-sdk@pr-hash-fixup-option
         env:
-          ARCH: ${{ matrix.arch }}
-          FIXUP: ${{ matrix.fixup }}
+          ARCH: ${{ matrix.sdk }}-${{ matrix.wrtrel }}
+          EXTRA_FEEDS: src-git|rrredir|${{ github.server_url }}/${{ github.repository }}.git^${{ github.sha }}
+          PACKAGES: rrredir
+          FIXUP: 1
+          V: w # s=(stdout+stderr), w=warnings, c=commands
 
-      - name: Move created packages to project dir
-        run: cp bin/packages/${{ matrix.arch }}/packages_ci/*.ipk . || true
-
-      - name: Store packages
-        uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.arch}}-packages
-          path: |
-            *.ipk
+          name: rrredir_0.3_openwrt-${{ matrix.wrtrel }}_${{ matrix.sdk }}.ipk.d
+          path: bin/packages/**/rrredir_*.ipk
